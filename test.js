@@ -1,4 +1,5 @@
 require("dotenv").config();
+const _ = require("lodash");
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
@@ -11,6 +12,7 @@ var port = 3000;
 var rawData = fs.readFileSync(__dirname + "/data.json");
 var switchData = JSON.parse(rawData);
 
+console.log(_.camelCase("Papa's Schwippbogen"));
 app.set("view engine", "ejs");
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -29,6 +31,7 @@ mongoose.connect(
 );
 
 const switchSchema = new mongoose.Schema({
+  identifier: String,
   name: String,
   systemCode: String,
   unitCode: Number,
@@ -38,6 +41,7 @@ const switchSchema = new mongoose.Schema({
 const Switch = mongoose.model("Switch", switchSchema);
 
 switch1 = new Switch({
+  identifier: _.camelCase("Papa's Schwippbogen"),
   name: "Papa's Schwippbogen",
   systemCode: "00001",
   unitCode: 1,
@@ -45,6 +49,7 @@ switch1 = new Switch({
 });
 
 switch2 = new Switch({
+  identifier: _.camelCase("Balkon"),
   name: "Balkon",
   systemCode: "00011",
   unitCode: 4,
@@ -73,51 +78,69 @@ app.get("/", function (req, res) {
 });
 
 app.post("/on", function (req, res) {
-  switchOn();
+  const switchIdentifier = req.body.switcherIdentifier;
+  console.log("switch on " + switchIdentifier);
+  switchOn(switchIdentifier);
   res.redirect("/");
 });
 
 app.post("/off", function (req, res) {
-  switchOff();
+  const switchIdentifier = req.body.switcherIdentifier;
+  console.log("switch on " + switchIdentifier);
+  switchOff(switchIdentifier);
   res.redirect("/");
 });
 
-function switchOn() {
-  var systemCode = switchData.fb1.systemCode;
-  var unitCode = switchData.fb1.unitCode;
-  exec(
-    "/home/pi/rcswitch-pi/send " + systemCode + " " + unitCode + " 1",
-    function (err, stdout, stderr) {
-      if (err) {
-        console.log("Something went wrong");
-        return;
-      }
-      if (stderr) {
-        console.log("stderr: " + stderr);
-        return;
-      }
-      console.log("stdout: " + stdout);
+function switchOn(switchIdentifier) {
+  Switch.findOne({ identifier: switchIdentifier }, (err, foundSwitch) => {
+    if (!err && foundSwitch) {
+      console.log("found switch: ", foundSwitch);
+      exec(
+        "/home/pi/rcswitch-pi/send " +
+          foundSwitch.systemCode +
+          " " +
+          foundSwitch.unitCode +
+          " 1",
+        function (err, stdout, stderr) {
+          if (err) {
+            console.log("Something went wrong");
+            return;
+          }
+          if (stderr) {
+            console.log("stderr: " + stderr);
+            return;
+          }
+          console.log("stdout: " + stdout);
+        }
+      );
     }
-  );
+  });
 }
 
-function switchOff() {
-  var systemCode = switchData.fb1.systemCode;
-  var unitCode = switchData.fb1.unitCode;
-  exec(
-    "/home/pi/rcswitch-pi/send " + systemCode + " " + unitCode + " 0",
-    function (err, stdout, stderr) {
-      if (err) {
-        console.log("Something went wrong");
-        return;
-      }
-      if (stderr) {
-        console.log("stderr: " + stderr);
-        return;
-      }
-      console.log("stdout: " + stdout);
+function switchOff(switchIdentifier) {
+  Switch.findOne({ identifier: switchIdentifier }, (err, foundSwitch) => {
+    if (!err && foundSwitch) {
+      console.log("found switch: ", foundSwitch);
+      exec(
+        "/home/pi/rcswitch-pi/send " +
+          foundSwitch.systemCode +
+          " " +
+          foundSwitch.unitCode +
+          " 0",
+        function (err, stdout, stderr) {
+          if (err) {
+            console.log("Something went wrong");
+            return;
+          }
+          if (stderr) {
+            console.log("stderr: " + stderr);
+            return;
+          }
+          console.log("stdout: " + stdout);
+        }
+      );
     }
-  );
+  });
 }
 
 app.listen(port, function () {
