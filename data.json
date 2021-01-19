@@ -1,0 +1,20 @@
+{
+    "fb1": {
+        "name": "Balkon",
+        "systemCode": "00011",
+        "unitCode": 4,
+        "areas": [
+            "all",
+            "secondFloor"
+        ]
+    },
+    "fb2": {
+        "name": "Papa's Schwippbogen",
+        "systemCode": "00001",
+        "unitCode": 1,
+        "areas": [
+            "all",
+            "secondFloor"
+        ]
+    }
+}

@@ -1,0 +1,14 @@
+<%- include("header") -%>
+
+<% switches.forEach((switcher) => { %>
+    <p><%= switcher.name %></p>
+    <form action="/on" method="post">
+        <button type="submit" name="on">On</button>
+    </form>
+    <form action="/off" method="post">
+        <button type="submit" name="off">Off</button>
+    </form>
+<% }); %> 
+
+
+<%- include("footer") -%>
