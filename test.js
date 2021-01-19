@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
@@ -16,7 +17,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
 mongoose.connect(
-  "mongodb+srv://admin-ingo:ELqRPcDj4qMYfmZnaoFf@cluster0.n6crd.mongodb.net/homeDB",
+  "mongodb+srv://" +
+    process.env.DB_USER +
+    ":" +
+    process.env.DB_PASS +
+    "@cluster0.n6crd.mongodb.net/homeDB",
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,
