@@ -80,18 +80,18 @@ app.get("/", function (req, res) {
 app.post("/on", function (req, res) {
   const switchIdentifier = req.body.switcherIdentifier;
   console.log("switch on " + switchIdentifier);
-  switchOn(switchIdentifier);
+  switchOnOff(switchIdentifier, 1);
   res.redirect("/");
 });
 
 app.post("/off", function (req, res) {
   const switchIdentifier = req.body.switcherIdentifier;
   console.log("switch on " + switchIdentifier);
-  switchOff(switchIdentifier);
+  switchOnOff(switchIdentifier, 0);
   res.redirect("/");
 });
 
-function switchOn(switchIdentifier) {
+function switchOnOff(switchIdentifier, status) {
   Switch.findOne({ identifier: switchIdentifier }, (err, foundSwitch) => {
     if (!err && foundSwitch) {
       console.log("found switch: ", foundSwitch);
@@ -100,33 +100,8 @@ function switchOn(switchIdentifier) {
           foundSwitch.systemCode +
           " " +
           foundSwitch.unitCode +
-          " 1",
-        function (err, stdout, stderr) {
-          if (err) {
-            console.log("Something went wrong");
-            return;
-          }
-          if (stderr) {
-            console.log("stderr: " + stderr);
-            return;
-          }
-          console.log("stdout: " + stdout);
-        }
-      );
-    }
-  });
-}
-
-function switchOff(switchIdentifier) {
-  Switch.findOne({ identifier: switchIdentifier }, (err, foundSwitch) => {
-    if (!err && foundSwitch) {
-      console.log("found switch: ", foundSwitch);
-      exec(
-        "/home/pi/rcswitch-pi/send " +
-          foundSwitch.systemCode +
           " " +
-          foundSwitch.unitCode +
-          " 0",
+          status,
         function (err, stdout, stderr) {
           if (err) {
             console.log("Something went wrong");
