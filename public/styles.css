@@ -24,6 +24,8 @@ h1 {
 
 .card {
   background-color: #79a3b1;
+  margin: 1rem 0;
+  height: 200px;
 }
 
 .navbar {
