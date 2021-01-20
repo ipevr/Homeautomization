@@ -31,3 +31,13 @@ h1 {
 .navbar {
   background-color: #456268;
 }
+
+.configure-botton {
+  width: 160px;
+  margin-right: 20px;
+}
+
+.error-message {
+  color: red;
+  margin-top: 10px;
+}

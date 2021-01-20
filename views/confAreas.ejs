@@ -1,0 +1,31 @@
+<%- include("header") -%>
+
+<div class="container">
+    <h1>Configure Areas</h1>
+    <form action="/areas" method="POST">
+        <div class="form-group">
+          <label for="exampleFormControlInput1">New Area</label>
+          <input type="text" name="newArea" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+        </div>
+        <div class="form-group row">
+            <div class="col-sm-10">
+              <button type="submit" class="btn btn-secondary btn-lg configure-botton">Add</button>
+            </div>
+        </div>
+        <div class="form-group">
+          <label for="exampleFormControlSelect2">Existing Areas</label>
+          <select multiple class="form-control" id="exampleFormControlSelect2">
+              <% areas.forEach(area => { %>
+                <option><%= area.name %></option>
+              <% }); %>
+          </select>
+        </div>
+        <div class="edit-bottons">
+            <button type="submit" class="btn btn-secondary btn-lg configure-botton">Edit</button>
+            <button type="submit" class="btn btn-secondary btn-lg configure-botton">Remove</button>
+        </div>
+    </form>
+    <p class="error-message"><%=message%></p>
+</div>
+
+<%- include("footer") -%>

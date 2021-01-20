@@ -30,6 +30,11 @@ mongoose.connect(
   }
 );
 
+const areaSchema = new mongoose.Schema({
+  identifier: String,
+  name: String,
+});
+
 const switchSchema = new mongoose.Schema({
   identifier: String,
   name: String,
@@ -38,6 +43,7 @@ const switchSchema = new mongoose.Schema({
   areas: [],
 });
 
+const Area = mongoose.model("Area", areaSchema);
 const Switch = mongoose.model("Switch", switchSchema);
 
 switch1 = new Switch({
@@ -77,8 +83,17 @@ app.get("/", (req, res) => {
   });
 });
 
-app.get("/configure", (req, res) => {
-  res.render("configure");
+app.get("/areas", (req, res) => {
+  const message = req.query.valid;
+  Area.find({}, (err, areas) => {
+    if (!err) {
+      res.render("confAreas", { areas: areas, message: message });
+    }
+  });
+});
+
+app.get("/switches", (req, res) => {
+  res.render("confSwitches");
 });
 
 app.post("/on", (req, res) => {
@@ -91,6 +106,30 @@ app.post("/off", (req, res) => {
   const switchIdentifier = req.body.switcherIdentifier;
   switchOnOff(switchIdentifier, 0);
   res.redirect("/");
+});
+
+app.post("/areas", (req, res) => {
+  const newArea = req.body.newArea;
+  // Add new area to database
+  if (newArea !== "") {
+    Area.findOne({ identifier: _.camelCase(newArea) }, (err, foundArea) => {
+      if (err) {
+        console.log(err);
+        res.redirect("/areas");
+      } else if (foundArea) {
+        var message = encodeURIComponent("Area already exists!");
+        res.redirect("/areas?valid=" + message);
+      } else {
+        area = new Area({
+          identifier: _.camelCase(newArea),
+          name: newArea,
+        });
+        area.save(() => {
+          res.redirect("/areas");
+        });
+      }
+    });
+  }
 });
 
 function switchOnOff(switchIdentifier, status) {
