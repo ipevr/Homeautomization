@@ -1,0 +1,31 @@
+body {
+  font-family: "Montserrat";
+  background-color: #fcf8ec;
+}
+
+footer {
+  text-align: center;
+  margin: 5rem;
+}
+
+h1 {
+  margin: 2rem 0;
+}
+
+.switchButton {
+  text-align: center;
+  margin: 1rem;
+}
+
+.card-title {
+  text-align: center;
+  margin: 1rem;
+}
+
+.card {
+  background-color: #79a3b1;
+}
+
+.navbar {
+  background-color: #456268;
+}

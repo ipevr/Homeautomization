@@ -16,7 +16,7 @@ console.log(_.camelCase("Papa's Schwippbogen"));
 app.set("view engine", "ejs");
 
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static("public"));
+app.use(express.static(__dirname + "/public"));
 
 mongoose.connect(
   "mongodb+srv://" +
@@ -58,7 +58,7 @@ switch2 = new Switch({
 
 const defaultSwitches = [switch1, switch2];
 
-app.get("/", function (req, res) {
+app.get("/", (req, res) => {
   Switch.find({}, (err, switches) => {
     if (!err) {
       if (switches.length === 0) {
@@ -77,16 +77,18 @@ app.get("/", function (req, res) {
   });
 });
 
-app.post("/on", function (req, res) {
+app.get("/configure", (req, res) => {
+  res.render("configure");
+});
+
+app.post("/on", (req, res) => {
   const switchIdentifier = req.body.switcherIdentifier;
-  console.log("switch on " + switchIdentifier);
   switchOnOff(switchIdentifier, 1);
   res.redirect("/");
 });
 
-app.post("/off", function (req, res) {
+app.post("/off", (req, res) => {
   const switchIdentifier = req.body.switcherIdentifier;
-  console.log("switch on " + switchIdentifier);
   switchOnOff(switchIdentifier, 0);
   res.redirect("/");
 });
@@ -94,7 +96,6 @@ app.post("/off", function (req, res) {
 function switchOnOff(switchIdentifier, status) {
   Switch.findOne({ identifier: switchIdentifier }, (err, foundSwitch) => {
     if (!err && foundSwitch) {
-      console.log("found switch: ", foundSwitch);
       exec(
         "/home/pi/rcswitch-pi/send " +
           foundSwitch.systemCode +
