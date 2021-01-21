@@ -102,12 +102,14 @@ app.get("/switches", (req, res) => {
 });
 
 app.post("/on", (req, res) => {
+  console.log("switch on");
   const switchIdentifier = req.body.switcherIdentifier;
   switchOnOff(switchIdentifier, 1);
   res.redirect("/");
 });
 
 app.post("/off", (req, res) => {
+  console.log("switch off");
   const switchIdentifier = req.body.switcherIdentifier;
   switchOnOff(switchIdentifier, 0);
   res.redirect("/");

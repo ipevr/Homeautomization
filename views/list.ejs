@@ -9,12 +9,12 @@
                     <h2 class="card-title"><%= switcher.name %></h2>
                     <div class="container switch-buttons ">
                         <div class="row justify-content-evenly">
-                            <div class="d-grid gap-2 col-6 mx-auto ">
-                                <button class="btn btn-light btn-lg" type="button">Button</button>
-                            </div>
-                            <div class="d-grid gap-2 col-6 mx-auto ">
-                                <button class="btn btn-dark btn-lg" type="button">Button</button>
-                            </div>
+                            <form class="d-grid gap-2 col-6 mx-auto" action="/on" method="post">
+                                <button class="btn btn-light btn-lg" type="submit" name="switcherIdentifier" value=<%=switcher.identifier%>>On</button>
+                            </form>
+                            <form class="d-grid gap-2 col-6 mx-auto" action="/off" method="post">
+                                <button class="btn btn-dark btn-lg" type="submit" name="switcherIdentifier" value=<%=switcher.identifier%>>Off</button>
+                            </form>
                         </div>
                     </div>
                 </div>
