@@ -2,6 +2,89 @@
 
 <div class="container">
     <h1>Configure Switches</h1>
+
+    <div class="accordion mb-3" id="accordionSwitches">
+        <div class="mb-3">
+            <% for (let index = 0; index < switches.length; index++) { %>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id=<%="heading" + index%>>
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target=<%="#collapse" + index%> aria-expanded="true" aria-controls=<%="collapse" + index%>>
+                        <%= switches[index].name %>
+                        </button>
+                    </h2>
+                    <div id=<%="collapse" + index%> class="accordion-collapse collapse" aria-labelledby=<%="heading" + index%> data-bs-parent="#accordionSwitches">
+                        <div class="accordion-body">
+                            <form class="row g-3">
+                                <div class="col-12">
+                                    <label for="switchName" class="form-label">Switch Name</label>
+                                    <input type="text" class="form-control" id="switchName" placeholder="Steckdose Wohnzimmer 2" name=<%="switchName" + index%> value="<%=switches[index].name%>">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="systemCode" class="form-label">System Code</label>
+                                    <input type="text" class="form-control" id="systemCode" placeholder="01010" name=<%="switchSystemCode" + index%> value="<%=switches[index].systemCode%>">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="unitCode" class="form-label">Unit Code</label>
+                                    <input type="text" class="form-control" id="unitCode" placeholder="1 - 4" name=<%="switchUnitCode" + index%> value="<%=switches[index].unitCode%>">
+                                </div>
+                                <div class="col-12">
+                                    <label for="reaSelection" class="form-label">Area</label>
+                                    <select class="form-select" aria-label="Default select example" id="areaSelection">
+                                        <option selected>Erdgeschoss</option>
+                                        <option value="1">Obergeschoss</option>
+                                        <option value="2">Garten</option>
+                                        <option value="3">Keller</option>
+                                    </select>
+                                </div>
+                                <div class="col-12">
+                                    <button type="submit" class="btn btn-secondary btn-lg configure-botton">Submit</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>                   
+            <% } %>
+        </div>
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingNew">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseNew" aria-expanded="true" aria-controls="collapseNew">
+                Add Switch
+                </button>
+            </h2>
+            <div id="collapseNew" class="accordion-collapse collapse" aria-labelledby="headingNew" data-bs-parent="#accordionSwitches">
+                <div class="accordion-body">
+                    <form class="row g-3" action="/newSwitch" method="POST">
+                        <div class="col-12">
+                            <label for="switchName" class="form-label">Switch Name</label>
+                            <input type="text" class="form-control" id="switchName" placeholder="Steckdose Wohnzimmer 2" name="switchNameNew">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="systemCode" class="form-label">System Code</label>
+                            <input type="text" class="form-control" id="systemCode" placeholder="01010" name="switchSystemCodeNew">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="unitCode" class="form-label">Unit Code</label>
+                            <input type="text" class="form-control" id="unitCode" placeholder="1 - 4" name="switchUnitCodeNew">
+                        </div>
+                        <div class="col-12">
+                            <label for="reaSelection" class="form-label">Area</label>
+                            <select class="form-select" aria-label="Default select example" id="areaSelection">
+                                <option selected>Erdgeschoss</option>
+                                <option value="1">Obergeschoss</option>
+                                <option value="2">Garten</option>
+                                <option value="3">Keller</option>
+                            </select>
+                        </div>
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-secondary btn-lg configure-botton">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>                   
+
+    </div>
+    <p class="error-message"><%=message%></p>
 </div>
 
 <%- include("footer") -%>

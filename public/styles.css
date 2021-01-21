@@ -12,9 +12,16 @@ h1 {
   margin: 2rem 0;
 }
 
+.switch-buttons {
+  margin-top: auto;
+  margin-bottom: 20px;
+  display: inline-block;
+}
+
 .switchButton {
   text-align: center;
-  margin: 1rem;
+  width: auto;
+  margin: auto;
 }
 
 .card-title {
@@ -40,4 +47,8 @@ h1 {
 .error-message {
   color: red;
   margin-top: 10px;
+}
+
+.input-area {
+  margin-bottom: 2rem;
 }

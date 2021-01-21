@@ -93,7 +93,12 @@ app.get("/areas", (req, res) => {
 });
 
 app.get("/switches", (req, res) => {
-  res.render("confSwitches");
+  const message = req.query.valid;
+  Switch.find({}, (err, switches) => {
+    if (!err) {
+      res.render("confSwitches", { switches: switches, message: message });
+    }
+  });
 });
 
 app.post("/on", (req, res) => {
@@ -117,7 +122,7 @@ app.post("/areas", (req, res) => {
         console.log(err);
         res.redirect("/areas");
       } else if (foundArea) {
-        var message = encodeURIComponent("Area already exists!");
+        const message = encodeURIComponent("Area already exists!");
         res.redirect("/areas?valid=" + message);
       } else {
         area = new Area({
@@ -130,6 +135,44 @@ app.post("/areas", (req, res) => {
       }
     });
   }
+});
+
+app.post("/newSwitch", (req, res) => {
+  const name = req.body.switchNameNew;
+  const systemCode = req.body.switchSystemCodeNew;
+  const unitCode = req.body.switchUnitCodeNew;
+
+  if (name === "" || systemCode === "" || unitCode === "") {
+    const message = encodeURIComponent(
+      "Field for name, system code and unit code must not be empty!"
+    );
+    res.redirect("/switches?valid=" + message);
+    return;
+  }
+
+  Switch.findOne({ identifier: _.camelCase(name) }, (err, foundSwitch) => {
+    if (err) {
+      console.log(err);
+      res.redirect("/switches");
+    } else if (foundSwitch) {
+      const message = encodeURIComponent(
+        "A switch with a same or similar name already exists!"
+      );
+      res.redirect("/switches?valid=" + message);
+    } else {
+      const newSwitch = new Switch({
+        identifier: _.camelCase(req.body.switchNameNew),
+        name: name,
+        systemCode: systemCode,
+        unitCode: unitCode,
+        areas: ["Erdgeschoss"],
+      });
+
+      newSwitch.save(() => {
+        res.redirect("/switches");
+      });
+    }
+  });
 });
 
 function switchOnOff(switchIdentifier, status) {
