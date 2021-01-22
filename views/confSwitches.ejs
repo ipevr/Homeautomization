@@ -20,9 +20,9 @@
                                     <input type="text" class="form-control" id="switchName" placeholder="Steckdose Wohnzimmer 2" name="name" value="<%=switches[index].name%>">
                                     <input type="hidden" name="_id" value="<%=switches[index]._id%>">
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-6">
                                     <label for="systemCode" class="form-label">System Code</label>
-                                    <div class="input-group">
+                                    <div class="input-group flex-nowrap">
                                         <select class="form-select" aria-label="systemCode" name="systemCode[0]">
                                             <option selected><%=switches[index].systemCode.charAt(0)%></option>
                                             <option value="0">0</option>
@@ -50,16 +50,16 @@
                                         </select>
                                     </div>
                                         </div>
-                                <div class="col-md-3">
+                                <div class="col-md-6">
                                     <label for="unitCode" class="form-label">Unit Code</label>
-                                    <select class="form-select" aria-label="unitCode" name="unitCode">
+                                    <select class="form-select unit-code" aria-label="unitCode" name="unitCode">
                                         <option selected><%=switches[index].unitCode%></option>
                                         <option value="A">A</option>
                                         <option value="B">B</option>
                                         <option value="C">C</option>
                                         <option value="D">D</option>
                                         <option value="E">E</option>
-                                      </select>
+                                    </select>
                                 </div>
                                 <div class="col-12">
                                     <label for="reaSelection" class="form-label">Area</label>

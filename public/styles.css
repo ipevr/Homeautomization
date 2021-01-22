@@ -40,7 +40,7 @@ h1 {
 }
 
 .configure-botton {
-  width: 160px;
+  width: 120px;
   margin-right: 20px;
 }
 
@@ -51,4 +51,12 @@ h1 {
 
 .input-area {
   margin-bottom: 2rem;
+}
+
+.input-group {
+  width: 300px;
+}
+
+.unit-code {
+  width: 100px;
 }
