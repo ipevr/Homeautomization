@@ -40,7 +40,7 @@ const switchSchema = new mongoose.Schema({
   name: String,
   systemCode: String,
   unitCode: String,
-  areas: [],
+  area: String,
 });
 
 const Area = mongoose.model("Area", areaSchema);
@@ -51,7 +51,7 @@ switch1 = new Switch({
   name: "Papa's Schwippbogen",
   systemCode: "00001",
   unitCode: "A",
-  areas: ["all", "SecondFloor"],
+  area: "Erdgeschoss",
 });
 
 switch2 = new Switch({
@@ -59,7 +59,7 @@ switch2 = new Switch({
   name: "Balkon",
   systemCode: "00011",
   unitCode: "D",
-  areas: ["all", "Outside"],
+  area: "Erdgeschoss",
 });
 
 const defaultSwitches = [switch1, switch2];
@@ -143,6 +143,7 @@ app.post("/newSwitch", (req, res) => {
   const name = req.body.name;
   const systemCode = req.body.systemCode.join("");
   const unitCode = req.body.unitCode;
+  const area = req.body.area;
 
   Switch.findOne({ identifier: _.camelCase(name) }, (err, foundSwitch) => {
     if (err) {
@@ -155,11 +156,11 @@ app.post("/newSwitch", (req, res) => {
       res.redirect("/switches?valid=" + message);
     } else {
       const newSwitch = new Switch({
-        identifier: _.camelCase(req.body.switchNameNew),
+        identifier: _.camelCase(name),
         name: name,
         systemCode: systemCode,
         unitCode: unitCode,
-        areas: ["Erdgeschoss"],
+        area: area,
       });
 
       newSwitch.save(() => {
@@ -167,6 +168,37 @@ app.post("/newSwitch", (req, res) => {
       });
     }
   });
+});
+
+app.post("/editSwitch", (req, res) => {
+  console.log("Sent: ", req.body);
+  if (req.body.button === "edit") {
+    const name = req.body.name;
+    const systemCode = req.body.systemCode.join("");
+    const unitCode = req.body.unitCode;
+    const area = req.body.area;
+    Switch.updateOne(
+      { _id: req.body._id },
+      {
+        identifier: _.camelCase(name),
+        name: name,
+        systemCode: systemCode,
+        unitCode: unitCode,
+        area: area,
+      },
+      (err, result) => {
+        if (!err) {
+          res.redirect("/switches");
+        }
+      }
+    );
+  } else {
+    Switch.deleteOne({ _id: req.body._id }, (err, result) => {
+      if (!err) {
+        res.redirect("/switches");
+      }
+    });
+  }
 });
 
 function switchOnOff(switchIdentifier, status) {
