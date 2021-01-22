@@ -25,7 +25,14 @@
                                 </div>
                                 <div class="col-md-6">
                                     <label for="unitCode" class="form-label">Unit Code</label>
-                                    <input type="text" class="form-control" id="unitCode" placeholder="1 - 4" name=<%="switchUnitCode" + index%> value="<%=switches[index].unitCode%>">
+                                    <select class="form-select" aria-label="unitCode" name=<%="switchUnitCode" + index%> value="<%=switches[index].unitCode%>">
+                                        <option selected><%=switches[index].unitCode%></option>
+                                        <option value="1">A</option>
+                                        <option value="2">B</option>
+                                        <option value="3">C</option>
+                                        <option value="4">D</option>
+                                        <option value="5">E</option>
+                                      </select>
                                 </div>
                                 <div class="col-12">
                                     <label for="reaSelection" class="form-label">Area</label>
@@ -64,7 +71,14 @@
                         </div>
                         <div class="col-md-6">
                             <label for="unitCode" class="form-label">Unit Code</label>
-                            <input type="text" class="form-control" id="unitCode" placeholder="1 - 4" name="switchUnitCodeNew">
+                            <select class="form-select" aria-label="unitCode" name="switchUnitCodeNew">
+                                <option selected>Chosse a Unit Code</option>
+                                <option value="1">A</option>
+                                <option value="2">B</option>
+                                <option value="3">C</option>
+                                <option value="4">D</option>
+                                <option value="5">E</option>
+                              </select>
                         </div>
                         <div class="col-12">
                             <label for="reaSelection" class="form-label">Area</label>

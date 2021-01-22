@@ -39,7 +39,7 @@ const switchSchema = new mongoose.Schema({
   identifier: String,
   name: String,
   systemCode: String,
-  unitCode: Number,
+  unitCode: String,
   areas: [],
 });
 
@@ -50,7 +50,7 @@ switch1 = new Switch({
   identifier: _.camelCase("Papa's Schwippbogen"),
   name: "Papa's Schwippbogen",
   systemCode: "00001",
-  unitCode: 1,
+  unitCode: "A",
   areas: ["all", "SecondFloor"],
 });
 
@@ -58,11 +58,13 @@ switch2 = new Switch({
   identifier: _.camelCase("Balkon"),
   name: "Balkon",
   systemCode: "00011",
-  unitCode: 4,
+  unitCode: "D",
   areas: ["all", "Outside"],
 });
 
 const defaultSwitches = [switch1, switch2];
+
+console.log("A".charCodeAt(0) - 64);
 
 app.get("/", (req, res) => {
   Switch.find({}, (err, switches) => {
@@ -146,7 +148,7 @@ app.post("/newSwitch", (req, res) => {
 
   if (name === "" || systemCode === "" || unitCode === "") {
     const message = encodeURIComponent(
-      "Field for name, system code and unit code must not be empty!"
+      "Fields for name, system code and unit code must not be empty!"
     );
     res.redirect("/switches?valid=" + message);
     return;
@@ -184,7 +186,7 @@ function switchOnOff(switchIdentifier, status) {
         "/home/pi/rcswitch-pi/send " +
           foundSwitch.systemCode +
           " " +
-          foundSwitch.unitCode +
+          (foundSwitch.unitCode.charCodeAt(0) - 64) +
           " " +
           status,
         function (err, stdout, stderr) {
