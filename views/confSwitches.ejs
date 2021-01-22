@@ -17,13 +17,39 @@
                             <form class="row g-3">
                                 <div class="col-12">
                                     <label for="switchName" class="form-label">Switch Name</label>
-                                    <input type="text" class="form-control" id="switchName" placeholder="Steckdose Wohnzimmer 2" name=<%="switchName" + index%> value="<%=switches[index].name%>">
+                                    <input type="text" class="form-control" id="switchName" placeholder="Steckdose Wohnzimmer 2" name="switchName[<%=index%>]" value="<%=switches[index].name%>">
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-3">
                                     <label for="systemCode" class="form-label">System Code</label>
-                                    <input type="text" class="form-control" id="systemCode" placeholder="01010" name=<%="switchSystemCode" + index%> value="<%=switches[index].systemCode%>">
-                                </div>
-                                <div class="col-md-6">
+                                    <div class="input-group">
+                                        <select class="form-select" aria-label="systemCode" name="systemCode[0]">
+                                            <option selected><%=switches[index].systemCode.charAt(0)%></option>
+                                            <option value="0">0</option>
+                                            <option value="1">1</option>
+                                        </select>
+                                        <select class="form-select" aria-label="systemCode" name="systemCode[1]">
+                                            <option selected><%=switches[index].systemCode.charAt(1)%></option>
+                                            <option value="0">0</option>
+                                            <option value="1">1</option>
+                                        </select>
+                                        <select class="form-select" aria-label="systemCode" name="systemCode[2]">
+                                            <option selected><%=switches[index].systemCode.charAt(2)%></option>
+                                            <option value="0">0</option>
+                                            <option value="1">1</option>
+                                        </select>
+                                        <select class="form-select" aria-label="systemCode" name="systemCode[3]">
+                                            <option selected><%=switches[index].systemCode.charAt(3)%></option>
+                                            <option value="0">0</option>
+                                            <option value="1">1</option>
+                                        </select>
+                                        <select class="form-select" aria-label="systemCode" name="systemCode[4]">
+                                            <option selected><%=switches[index].systemCode.charAt(4)%></option>
+                                            <option value="0">0</option>
+                                            <option value="1">1</option>
+                                        </select>
+                                    </div>
+                                        </div>
+                                <div class="col-md-3">
                                     <label for="unitCode" class="form-label">Unit Code</label>
                                     <select class="form-select" aria-label="unitCode" name=<%="switchUnitCode" + index%> value="<%=switches[index].unitCode%>">
                                         <option selected><%=switches[index].unitCode%></option>
@@ -60,20 +86,43 @@
             </h2>
             <div id="collapseNew" class="accordion-collapse collapse" aria-labelledby="headingNew" data-bs-parent="#accordionSwitches">
                 <div class="accordion-body">
-                    <form class="row g-3" action="/newSwitch" method="POST">
-                        <div class="col-12">
+                    <form class="row g-3 needs-validation" action="/newSwitch" method="POST">
+                        <div class="col-12 has-validation">
                             <label for="switchName" class="form-label">Switch Name</label>
-                            <input type="text" class="form-control" id="switchName" placeholder="Steckdose Wohnzimmer 2" name="switchNameNew">
+                            <input type="text" class="form-control" id="switchName" placeholder="Steckdose Wohnzimmer 2" name="name" required>
+                            <div class="invalid-feedback">
+                                Please provide a name.
+                            </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-3">
                             <label for="systemCode" class="form-label">System Code</label>
-                            <input type="text" class="form-control" id="systemCode" placeholder="01010" name="switchSystemCodeNew">
+                            <div class="input-group">
+                                <select class="form-select" aria-label="systemCode" name="systemCode[0]">
+                                    <option selected value="0">0</option>
+                                    <option value="1">1</option>
+                                </select>
+                                <select class="form-select" aria-label="systemCode" name="systemCode[1]">
+                                    <option selected value="0">0</option>
+                                    <option value="1">1</option>
+                                </select>
+                                <select class="form-select" aria-label="systemCode" name="systemCode[2]">
+                                    <option selected value="0">0</option>
+                                    <option value="1">1</option>
+                                </select>
+                                <select class="form-select" aria-label="systemCode" name="systemCode[3]">
+                                    <option selected value="0">0</option>
+                                    <option value="1">1</option>
+                                </select>
+                                <select class="form-select" aria-label="systemCode" name="systemCode[4]">
+                                    <option selected value="0">0</option>
+                                    <option value="1">1</option>
+                                </select>
+                            </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-3">
                             <label for="unitCode" class="form-label">Unit Code</label>
-                            <select class="form-select" aria-label="unitCode" name="switchUnitCodeNew">
-                                <option selected>Chosse a Unit Code</option>
-                                <option value="A">A</option>
+                            <select class="form-select" aria-label="unitCode" name="unitCode">
+                                <option selected value="A">A</option>
                                 <option value="B">B</option>
                                 <option value="C">C</option>
                                 <option value="D">D</option>

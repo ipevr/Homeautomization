@@ -64,8 +64,6 @@ switch2 = new Switch({
 
 const defaultSwitches = [switch1, switch2];
 
-console.log("A".charCodeAt(0) - 64);
-
 app.get("/", (req, res) => {
   Switch.find({}, (err, switches) => {
     if (!err) {
@@ -142,17 +140,9 @@ app.post("/areas", (req, res) => {
 });
 
 app.post("/newSwitch", (req, res) => {
-  const name = req.body.switchNameNew;
-  const systemCode = req.body.switchSystemCodeNew;
-  const unitCode = req.body.switchUnitCodeNew;
-
-  if (name === "" || systemCode === "" || unitCode === "") {
-    const message = encodeURIComponent(
-      "Fields for name, system code and unit code must not be empty!"
-    );
-    res.redirect("/switches?valid=" + message);
-    return;
-  }
+  const name = req.body.name;
+  const systemCode = req.body.systemCode.join("");
+  const unitCode = req.body.unitCode;
 
   Switch.findOne({ identifier: _.camelCase(name) }, (err, foundSwitch) => {
     if (err) {
